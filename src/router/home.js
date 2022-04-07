@@ -15,6 +15,7 @@ router.post('/contact-data', contact.contact_data);
 router.put('/update-contact', contact.updateContacts);
 router.patch('/update-contact-patch', contact.updateContactsPatch);
 router.delete('/delete-contact', contact.deleteContacts);
+router.get('/get-contacts', contact.getContacts);
 router.get('/feedback', auth, feedback.feedback);
 router.post('/feedback-data', feedback.feedback_data);
 router.get('/page/:id', callMiddleware, globalMiddleware, pages.page); //Trying to call 2 middleware

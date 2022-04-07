@@ -122,3 +122,31 @@ exports.deleteContacts = async (req, res) => {
 		common_helper.handleError(req, res, 'Getting some error ' + e);
 	}
 }
+
+exports.getContacts = async (req, res) => {
+	try {
+		const { status } = req.body; // for post
+		if (!status) {
+			common_helper.handleError(req, res, 'Status should not be blank. ');
+		}
+
+		var userData = await Contacts.find(
+			{ status: status, subject: {"$nin": ["", null]} },
+			//{$and: [{"subject" : {"$nin": ["", null]}}, {"subject" : {$exists: true}}]},
+			//{$and: [{ "$not": { "$in": ["$subject", ["",null]] }}]},
+			//{ "$not": { "$in": ["$subject", ["",null]] }},
+			//{'subject': {$not: {$ne : ["", null]}}},
+			//{ "subject":{$ne:""}},
+			//{'asubject_key': {"$exists": true}},
+			{ _id: 0, name: 1, email: 1, subject: 1, message: 1, status: 1},
+
+			
+		).sort({_id:-1});
+
+		res.send(userData);
+		//common_helper.handleSuccess(req, res, 'Data deleted successfully.');
+
+	} catch (e) {
+		common_helper.handleError(req, res, 'Getting some error ' + e);
+	}
+}
